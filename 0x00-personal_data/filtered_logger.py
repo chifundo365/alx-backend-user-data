@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ define filter_datum """
 import re
-
+from typing import List
 
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str):
