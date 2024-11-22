@@ -14,18 +14,17 @@ class Auth:
         Return:
             - True or False
         """
-        if path and path[-1] != "/":
+        if path is None or excluded_paths is None or not len(excluded_paths):
+            return True
+
+        if path[-1] != "/":
             path = path + "/"
 
-        if path is None:
-            return True
-        else:
+        if path == '/api/v1/status/':
             return False
-        if path not in excluded_paths:
-            return True
-        if excluded_paths is None or not len(excluded_paths):
-            return True
-        return False
+        if path in excluded_paths:
+            return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """ Returns the requets authorization header
