@@ -19,10 +19,15 @@ if getenv("AUTH_TYPE") == "auth":
 
     auth = Auth()
 
+
 @app.before_request
 def filter_request():
     """ Filter requests based on Authorization """
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = [
+            '/api/v1/status/',
+            '/api/v1/unauthorized/',
+            '/api/v1/forbidden/'
+            ]
 
     if auth and auth.require_auth(request.path, excluded_paths):
         if not auth.authorization_header(request):
@@ -30,11 +35,13 @@ def filter_request():
         if not auth.current_user(request):
             abort(403)
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
+
 
 @app.errorhandler(401)
 def unauthorized(error):
