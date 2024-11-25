@@ -37,6 +37,6 @@ class BasicAuth(Auth):
             decoded_base64_authorization_header: str) -> (str, str):
         """ Passes user email and password from base64 decoded values """
         header = decoded_base64_authorization_header
-        if not header or not isinstance(header, str) or not ":" in header:
+        if not header or not isinstance(header, str) or ":" not in header:
             return None, None
         return tuple(header.split(":", 1))
