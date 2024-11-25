@@ -16,5 +16,5 @@ class BasicAuth(Auth):
         if not header or not isinstance(header, str):
             return None
         if re.search(r'^Basic', header):
-            return header[5:]
+            return header[6:]
         return None
