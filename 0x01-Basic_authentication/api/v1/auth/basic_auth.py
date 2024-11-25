@@ -28,6 +28,6 @@ class BasicAuth(Auth):
         if not header or not isinstance(header, str):
             return None
         try:
-            return base64.b64decode(header).decode('uutf-8')
+            return base64.b64decode(header).decode('utf-8')
         except Exception as e:
             return None
