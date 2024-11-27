@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """ Basic authentication """
-from .auth import Auth
 import re
 import base64
+from typing import TypeVar
+from .auth import Auth
 
 
 class BasicAuth(Auth):
@@ -40,3 +41,25 @@ class BasicAuth(Auth):
         if not header or not isinstance(header, str) or ":" not in header:
             return None, None
         return tuple(header.split(":", 1))
+
+    def user_object_from_credentials(
+            self,
+            user_email: str,
+            user_pwd: str) -> TypeVar('User'):
+        """ 
+        Searches for a user Given the Credentials
+
+        Returns:
+            - User Object that matches the credentials.
+        """
+        if not user_email or type(user_email) != str:
+            return None
+        if not user_pwd or type(user_pwd) != str:
+            return None
+        objects = self.search({'email': user_email})
+        if not objects:
+            return None
+        for user in objects:
+            if user.is_valid_password(user_pwd):
+                return user
+        return None
