@@ -4,6 +4,7 @@ import re
 import base64
 from typing import TypeVar
 from .auth import Auth
+from models.user import User
 
 
 class BasicAuth(Auth):
@@ -46,7 +47,7 @@ class BasicAuth(Auth):
             self,
             user_email: str,
             user_pwd: str) -> TypeVar('User'):
-        """ 
+        """
         Searches for a user Given the Credentials
 
         Returns:
@@ -56,7 +57,7 @@ class BasicAuth(Auth):
             return None
         if not user_pwd or type(user_pwd) != str:
             return None
-        objects = self.search({'email': user_email})
+        objects = User.search({'email': user_email})
         if not objects:
             return None
         for user in objects:
