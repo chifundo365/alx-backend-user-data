@@ -57,9 +57,8 @@ class BasicAuth(Auth):
             return None
         if not user_pwd or type(user_pwd) != str:
             return None
-        u = User()
         try:
-            objects = u.search({"email": user_email)
+            objects = User.search({"email": user_email)
         except Exception as e:
             return None
         for user in objects:
