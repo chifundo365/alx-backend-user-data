@@ -28,8 +28,8 @@ class Auth:
         for ex_path in excluded_paths:
             if ex_path[-1] == "*":
                 _ex_path = ex_path[0: -1] + ".*"
-            if re.search(_ex_path, path):
-                return False
+                if re.search(_ex_path, path):
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
