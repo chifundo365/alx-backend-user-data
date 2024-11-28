@@ -4,7 +4,7 @@ Api Authentication
 """
 from flask import request
 from typing import List, TypeVar
-
+import re
 
 class Auth:
     """ Manage API Authentication
@@ -22,6 +22,11 @@ class Auth:
 
         if path == '/api/v1/status/':
             return False
+        
+        for ex_path in excluded_paths:
+            if re.search(ex_path, path):
+                return False
+
         if path in excluded_paths:
             return False
         return True
