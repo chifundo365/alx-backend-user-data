@@ -5,6 +5,7 @@ Api Authentication
 from flask import request
 from typing import List, TypeVar
 import re
+import os
 
 
 class Auth:
@@ -45,3 +46,9 @@ class Auth:
         """ Returns the current user or None
         """
         return None
+
+    def session_cookie(self, request=None):
+        """ Get a session cookie value"""
+        if request is None:
+            return None
+        return request.cookies.get(os.environ.get(SESSION_NAME))
