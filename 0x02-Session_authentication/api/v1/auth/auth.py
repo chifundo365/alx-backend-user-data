@@ -51,4 +51,7 @@ class Auth:
         """ Get a session cookie value"""
         if request is None:
             return None
-        return request.cookies.get(os.environ.get(SESSION_NAME))
+        try:
+            return request.cookies.get(os.environ.get(SESSION_NAME))
+        except Exception as e:
+            return None
