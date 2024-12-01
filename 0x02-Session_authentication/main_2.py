@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """ Main 2
 """
 from api.v1.auth.session_auth import SessionAuth
