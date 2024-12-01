@@ -47,11 +47,9 @@ class Auth:
         """
         return None
 
-    def session_cookie(self, request=None):
+    def session_cookie(self, _request=None):
         """ Get a session cookie value"""
-        if request is None:
-            return None
         try:
-            return request.cookies.get(os.environ.get(SESSION_NAME))
+            return _request.cookies.get(os.environ.get("SESSION_NAME"))
         except Exception as e:
             return None
