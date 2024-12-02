@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ Moudule of Users views """
-from flask import request, jsonify, make_response
+from flask import request, jsonify, make_response, abort
 import os
 from api.v1.views import app_views
 from models.user import User
@@ -30,3 +30,15 @@ def login():
     response = make_response(user.to_json())
     response.set_cookie(os.environ.get('SESSION_NAME'), ss_id)
     return response
+
+
+@app_views.route(
+        "/auth_session/logout",
+        methods=["DELETE"],
+        strict_slashes=False)
+def logout():
+    """ logout/ Destroying the user session """
+    from api.v1.app import auth
+    if auth.destroy_session(request):
+        return jsonify({}), 200
+    abort(404)
