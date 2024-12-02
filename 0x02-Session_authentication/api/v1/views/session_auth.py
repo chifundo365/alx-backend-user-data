@@ -8,10 +8,9 @@ from models.user import User
 
 @app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
 def login():
+    """ login and Session creation View """
     email = request.form.get('email')
     password = request.form.get('password')
-
-    print("****" * 5 + "\nWe are here")
 
     if not email:
         return jsonify({'error': 'email missing'}), 400
