@@ -5,7 +5,7 @@ from api.v1.auth.session_auth import SessionAuth
 
 
 class SessionExpAuth(SessionAuth):
-    """ SessionExpAuth 
+    """ SessionExpAuth
         Session authentication with Expiration
     """
     def __init__(self):
@@ -33,21 +33,15 @@ class SessionExpAuth(SessionAuth):
 
     def user_id_for_session_id(self, session_id=None):
         """ retrieves the user id og a session id """
-        if not session_id:
-            return None
-        user_id = super().user_id_for_session_id(session_id)
-
-        if not user_id:
-            return None
-        if type(user_id) == dict:
+        if session_id in self.user_id_by_session_id:
+            session_dict = self.user_id_by_session_id(session_id)
             if self.session_duration <= 0:
-                return user_id.get('user_id')
-            if not user_id.get('created_at'):
+                return session_dict.get('user_id')
+            if 'created_at' not in session_dict:
                 return None
-            t_delta = timedelta(seconds=self.session_duration)
-            now  = datetime.now()
-            if user_id.get('created_at') + t_delta > now:
-                return user_id.get('user_id')
-            return None
-        return None
-                  
+            cur_time = datetime.now()
+            time_span = timedelta(second=self.session_duration)
+            exp_time = session_dict.get('created_at') + time_span
+            if exp_time < cur_time:
+                return None
+            return session_dict.get('user_id')
